@@ -1,0 +1,2 @@
+1;F:\Jaava\Krzysztof Makowski Java korepetycje\Projekty\DataProcess\src\test\resources\data1.txt
+2;F:\Jaava\Krzysztof Makowski Java korepetycje\Projekty\DataProcess\src\test\resources\data2.txt

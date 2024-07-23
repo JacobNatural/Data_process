@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SaveToTxt.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">DataProcess</a> &gt; <a href="index.source.html" class="el_package">com.app.txt.save.generic</a> &gt; <span class="el_source">SaveToTxt.java</span></div><h1>SaveToTxt.java</h1><pre class="source lang-java linenums">package com.app.txt.save.generic;
+
+import com.app.txt.Transfer;
+import com.app.txt.save.Save;
+import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+
+import java.util.function.Function;
+
+/**
+ * Abstract implementation of the {@link Save} interface for saving data to a text file.
+ *
+ * &lt;p&gt;This class provides a generic way to save data of type {@code T} to a text file by using
+ * a {@link Transfer} mechanism that handles the actual writing process. It requires a {@link Function}
+ * to convert the data of type {@code T} into a {@link String} representation.&lt;/p&gt;
+ *
+ * @param &lt;T&gt; the type of data to be saved
+ * @see Save
+ * @see Transfer
+ */
+<span class="fc" id="L21">@AllArgsConstructor</span>
+public abstract class SaveToTxt&lt;T&gt; implements Save&lt;T&gt; {
+
+    private final Transfer&lt;T, String&gt; transfer;
+
+    /**
+     * Saves the specified data to a file.
+     *
+     * &lt;p&gt;This method converts the data of type {@code T} into a {@link String} using the provided
+     * {@link Function} and then uses the {@link Transfer} instance to write the data to the specified file.&lt;/p&gt;
+     *
+     * @param filename the name of the file to save data to
+     * @param t the data to be saved
+     * @param prepare a {@link Function} that converts data of type {@code T} into a {@link String}
+     * @throws IllegalArgumentException if any argument is {@code null} or if {@code filename} is empty
+     * @throws Exception if an I/O error occurs during file operations
+     */
+    @Override
+<span class="pc" id="L39">    @SneakyThrows</span>
+    public void save(String filename, T t, Function&lt;T, String&gt; prepare) {
+<span class="fc" id="L41">        transfer.writeData(filename, t, prepare);</span>
+<span class="fc" id="L42">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

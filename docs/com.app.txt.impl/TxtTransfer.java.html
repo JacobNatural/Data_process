@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TxtTransfer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">DataProcess</a> &gt; <a href="index.source.html" class="el_package">com.app.txt.impl</a> &gt; <span class="el_source">TxtTransfer.java</span></div><h1>TxtTransfer.java</h1><pre class="source lang-java linenums">package com.app.txt.impl;
+
+import com.app.parser.LineParser;
+import com.app.txt.Transfer;
+import lombok.SneakyThrows;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+/**
+ * The TxtTransfer class implements the Transfer interface for handling text-based data.
+ * It provides methods for reading data from and writing data to text files.
+ *
+ * @param &lt;T&gt; the type of the keys in the data
+ * @param &lt;U&gt; the type of the values in the data
+ */
+<span class="fc" id="L22">public class TxtTransfer&lt;T, U&gt; implements Transfer&lt;T, U&gt; {</span>
+
+    /**
+     * Reads data from a text file and parses it into a map using the provided LineParser.
+     *
+     * @param filename the name of the file to read data from
+     * @param lineParser the parser used to convert lines of data into key-value pairs
+     * @return a map containing the parsed data, where the key is of type T and the value is of type U
+     * @throws IllegalArgumentException if filename or lineParser is null, or filename is empty
+     * @throws RuntimeException if an I/O error occurs while reading the file
+     */
+    @Override
+<span class="fc" id="L34">    @SneakyThrows</span>
+    public Map&lt;T, U&gt; readData(String filename, LineParser&lt;T, U&gt; lineParser) {
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (filename == null) {</span>
+<span class="fc" id="L38">            throw new IllegalArgumentException(&quot;Filename cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (filename.isEmpty()) {</span>
+<span class="fc" id="L42">            throw new IllegalArgumentException(&quot;Filename cannot be empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (lineParser == null) {</span>
+<span class="fc" id="L46">            throw new IllegalArgumentException(&quot;LineParser cannot be null&quot;);</span>
+        }
+
+<span class="fc" id="L49">        try (var lines = Files.lines(Paths.get(filename))) {</span>
+<span class="fc" id="L50">            return lines</span>
+<span class="fc" id="L51">                    .map(lineParser::parse)</span>
+<span class="fc" id="L52">                    .flatMap(map -&gt; map.entrySet().stream())</span>
+<span class="fc" id="L53">                    .collect(Collectors.toMap(</span>
+                            Map.Entry::getKey, Map.Entry::getValue,
+                            (v1, v2) -&gt;
+<span class="pc bpc" id="L56" title="2 of 4 branches missed.">                                    (v1 instanceof String s1 &amp;&amp; v2 instanceof String s2) ?</span>
+<span class="pc" id="L57">                                            (U) String.join(&quot;\n&quot;, s1, s2) : v1</span>
+                    ));
+        }
+    }
+
+    /**
+     * Writes data to a text file after processing it with a given function.
+     *
+     * @param filename the name of the file to write data to
+     * @param t the data to be written
+     * @param prepare a function used to process the data before writing
+     * @throws IllegalArgumentException if filename, data (t), or prepare function is null, or filename is empty
+     * @throws RuntimeException if an I/O error occurs while writing to the file
+     */
+    @Override
+<span class="fc" id="L72">    @SneakyThrows</span>
+    public void writeData(String filename, T t, Function&lt;T, U&gt; prepare) {
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (filename == null) {</span>
+<span class="fc" id="L75">            throw new IllegalArgumentException(&quot;Filename cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (filename.isEmpty()) {</span>
+<span class="fc" id="L79">            throw new IllegalArgumentException(&quot;Filename cannot be empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (t == null) {</span>
+<span class="fc" id="L83">            throw new IllegalArgumentException(&quot;T cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (prepare == null) {</span>
+<span class="fc" id="L87">            throw new IllegalArgumentException(&quot;Prepare cannot be null&quot;);</span>
+        }
+
+<span class="fc" id="L90">        try (var fileWriter = new FileWriter(filename); var pw = new PrintWriter(fileWriter)) {</span>
+<span class="fc" id="L91">            pw.println(prepare.apply(t));</span>
+        }
+<span class="fc" id="L93">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

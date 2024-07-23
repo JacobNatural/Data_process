@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">DataProcess</a> &gt; <a href="index.source.html" class="el_package">com.app.user</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package com.app.user;
+
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+
+/**
+ * Represents a user in the system with an ID, login credentials, and user type.
+ *
+ * &lt;p&gt;This class encapsulates user information including their ID, login, password, and type.
+ * It provides a method to check if the user has administrator privileges.&lt;/p&gt;
+ *
+ * &lt;p&gt;Uses Lombok annotations to automatically generate {@code equals()}, {@code hashCode()},
+ * and {@code toString()} methods based on the user's ID.&lt;/p&gt;
+ */
+<span class="fc" id="L16">@RequiredArgsConstructor</span>
+<span class="pc bpc" id="L17" title="6 of 14 branches missed.">@EqualsAndHashCode(of = &quot;id&quot;)</span>
+<span class="fc" id="L18">@ToString</span>
+public class User {
+    /**
+     * The unique identifier of the user.
+     */
+    private final Long id;
+
+    /**
+     * The login name of the user.
+     */
+    private final String login;
+
+    /**
+     * The password of the user.
+     */
+    private final String password;
+
+    /**
+     * The type of the user (e.g., administrator, regular user).
+     */
+    private final UserType userType;
+
+    /**
+     * Checks if the user is an administrator.
+     *
+     * &lt;p&gt;Determines whether the user has administrator privileges based on their {@link UserType}.
+     * The user is considered an administrator if their user type is {@link UserType#ADMINISTRATOR}.&lt;/p&gt;
+     *
+     * @return {@code true} if the user is an administrator, {@code false} otherwise
+     */
+    public boolean isAdministrator(){
+<span class="fc" id="L49">        return this.userType.equals(UserType.ADMINISTRATOR);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
