@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataProcessingImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">DataProcess</a> &gt; <a href="index.source.html" class="el_package">com.app.processing.impl</a> &gt; <span class="el_source">DataProcessingImpl.java</span></div><h1>DataProcessingImpl.java</h1><pre class="source lang-java linenums">package com.app.processing.impl;
+
+import com.app.data.impl.DataImpl;
+import com.app.model.Filename;
+import com.app.processing.DataProcessing;
+import com.app.txt.save.Save;
+import com.app.user.User;
+import lombok.AllArgsConstructor;
+
+import java.util.Map;
+
+/**
+ * The DataProcessing class provides methods for managing and processing data associated with users.
+ * It supports adding, removing, and updating user-data associations, as well as performing various
+ * operations on the data such as counting pattern occurrences and saving files.
+ */
+@AllArgsConstructor
+public class DataProcessingImpl implements DataProcessing {
+
+    private final Map&lt;User, DataImpl&gt; dataProcess;
+
+    /**
+     * Adds a user and their associated data to the data process map.
+     * Throws an exception if the user or data is null, or if the user already exists in the map.
+     *
+     * @param user the user to be added
+     * @param dataImpl the data associated with the user
+     */
+    public void addUser(User user, DataImpl dataImpl){
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if(user == null){</span>
+<span class="fc" id="L31">            throw new IllegalArgumentException(&quot;User cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if(dataImpl == null){</span>
+<span class="fc" id="L35">            throw new IllegalArgumentException(&quot;Data cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if(dataProcess.containsKey(user)){</span>
+<span class="fc" id="L39">            throw new IllegalArgumentException(&quot;The user already exists&quot;);</span>
+        }
+
+<span class="fc" id="L42">        dataProcess.put(user, dataImpl);</span>
+<span class="fc" id="L43">    }</span>
+
+    /**
+     * Removes a user and their associated data from the data process map.
+     * Throws an exception if the user is null or if the user does not exist in the map.
+     *
+     * @param user the user to be removed
+     */
+    public void removeUser(User user){
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if(user == null){</span>
+<span class="fc" id="L53">            throw new IllegalArgumentException(&quot;User cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if(!dataProcess.containsKey(user)){</span>
+<span class="fc" id="L57">            throw new IllegalArgumentException(&quot;User does not exist&quot;);</span>
+        }
+
+<span class="fc" id="L60">        dataProcess.remove(user);</span>
+<span class="fc" id="L61">    }</span>
+
+    /**
+     * Updates the data associated with an existing user.
+     * Throws an exception if the user or data is null, if the user does not exist in the map,
+     * or if the data is to be updated for a non-existing user.
+     *
+     * @param user the user whose data is to be updated
+     * @param dataImpl the new data to associate with the user
+     */
+    public void updateData(User user, DataImpl dataImpl){
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        if(user == null){</span>
+<span class="fc" id="L73">            throw new IllegalArgumentException(&quot;User cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if(dataImpl == null){</span>
+<span class="fc" id="L77">            throw new IllegalArgumentException(&quot;Data cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if(!dataProcess.containsKey(user)){</span>
+<span class="fc" id="L81">            throw new IllegalArgumentException(&quot;User does not exist&quot;);</span>
+        }
+
+<span class="fc" id="L84">        dataProcess.put(user, dataImpl);</span>
+<span class="fc" id="L85">    }</span>
+
+    /**
+     * Counts the occurrences of a pattern in the data associated with a specific user.
+     * Throws an exception if the user is null, if the regex is null or empty, or if the user does not exist.
+     *
+     * @param user the user whose data is to be processed
+     * @param regex the regular expression pattern to count occurrences of
+     * @return the number of occurrences of the pattern in the user's data
+     */
+    public long getPatternOccurrences(User user, String regex) {
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if(user == null){</span>
+<span class="fc" id="L97">            throw new IllegalArgumentException(&quot;User cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        if(regex == null){</span>
+<span class="fc" id="L101">            throw new IllegalArgumentException(&quot;Regex cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if(regex.isEmpty()){</span>
+<span class="fc" id="L105">            throw new IllegalArgumentException(&quot;Regex cannot be empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (!dataProcess.containsKey(user)) {</span>
+<span class="fc" id="L109">            throw new IllegalArgumentException(&quot;User not exist&quot;);</span>
+        }
+
+<span class="fc" id="L112">        return dataProcess.get(user).countPatternOccurrences(regex);</span>
+    }
+
+    /**
+     * Counts the occurrences of a pattern in a specific file's data associated with a user.
+     * Throws an exception if the user, regex, or filename is null, if the regex is empty, if the user does not exist,
+     * or if the file does not exist for the user.
+     *
+     * @param user the user whose data is to be processed
+     * @param regex the regular expression pattern to count occurrences of
+     * @param filename the filename whose data is to be processed
+     * @return the number of occurrences of the pattern in the file's data
+     */
+    public long getPatternOccurrences(User user, String regex, Filename filename){
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        if(user == null){</span>
+<span class="fc" id="L127">            throw new IllegalArgumentException(&quot;User cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if(regex == null){</span>
+<span class="fc" id="L131">            throw new IllegalArgumentException(&quot;Regex cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        if(filename == null){</span>
+<span class="fc" id="L135">            throw new IllegalArgumentException(&quot;Filename cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        if(regex.isEmpty()){</span>
+<span class="fc" id="L139">            throw new IllegalArgumentException(&quot;Regex cannot be empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (!dataProcess.containsKey(user)) {</span>
+<span class="fc" id="L143">            throw new IllegalArgumentException(&quot;User not exist&quot;);</span>
+        }
+
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if(!dataProcess.get(user).containFile(filename)){</span>
+<span class="fc" id="L147">            throw new IllegalArgumentException(&quot;File not exist&quot;);</span>
+        }
+
+<span class="fc" id="L150">        return dataProcess.get(user).countPatternOccurrences(regex, filename);</span>
+    }
+
+    /**
+     * Modifies the content of a file associated with a user.
+     * Throws an exception if the user, filename, or new content is null or empty,
+     * if the user does not exist, if the file does not exist, or if the user is not an administrator.
+     *
+     * @param user the user whose file is to be modified
+     * @param fileName the filename of the file to be modified
+     * @param newContent the new content to set in the file
+     */
+    public void modifyData(User user, Filename fileName, String newContent){
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        if(user == null){</span>
+<span class="fc" id="L164">            throw new IllegalArgumentException(&quot;User cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        if(fileName == null){</span>
+<span class="fc" id="L168">            throw new IllegalArgumentException(&quot;Filename cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L171" title="All 2 branches covered.">        if(newContent == null){</span>
+<span class="fc" id="L172">            throw new IllegalArgumentException(&quot;Content cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        if(newContent.isEmpty()){</span>
+<span class="fc" id="L176">            throw new IllegalArgumentException(&quot;Content cannot be empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        if(!dataProcess.containsKey(user)){</span>
+<span class="fc" id="L180">            throw new IllegalArgumentException(&quot;User not exist&quot;);</span>
+        }
+
+<span class="fc bfc" id="L183" title="All 2 branches covered.">        if(!dataProcess.get(user).containFile(fileName)){</span>
+<span class="fc" id="L184">            throw new IllegalArgumentException(&quot;File not exist&quot;);</span>
+        }
+
+<span class="fc bfc" id="L187" title="All 2 branches covered.">        if(!user.isAdministrator()){</span>
+<span class="fc" id="L188">            throw new IllegalArgumentException(&quot;This user is not an administrator&quot;);</span>
+        }
+
+<span class="fc" id="L191">        dataProcess.get(user).modifyValue(fileName, newContent);</span>
+<span class="fc" id="L192">    }</span>
+
+    /**
+     * Saves the content of a file associated with a user using the provided Save strategy.
+     * Throws an exception if the user, filename, or save strategy is null, if the user does not exist,
+     * or if the user is not an administrator.
+     *
+     * @param user the user whose file is to be saved
+     * @param filename the filename of the file to be saved
+     * @param save the Save strategy to use for saving the file
+     */
+    public void saveFile(User user, Filename filename, Save&lt;String&gt; save){
+<span class="fc bfc" id="L204" title="All 2 branches covered.">        if(user == null){</span>
+<span class="fc" id="L205">            throw new IllegalArgumentException(&quot;User cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L208" title="All 2 branches covered.">        if(filename == null){</span>
+<span class="fc" id="L209">            throw new IllegalArgumentException(&quot;Filename cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L212" title="All 2 branches covered.">        if(save == null){</span>
+<span class="fc" id="L213">            throw new IllegalArgumentException(&quot;Save cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L216" title="All 2 branches covered.">        if(!dataProcess.containsKey(user)){</span>
+<span class="fc" id="L217">            throw new IllegalArgumentException(&quot;User not exist&quot;);</span>
+        }
+
+<span class="fc bfc" id="L220" title="All 2 branches covered.">        if(!user.isAdministrator()){</span>
+<span class="fc" id="L221">            throw new IllegalArgumentException(&quot;This user is not an administrator&quot;);</span>
+        }
+
+<span class="fc bfc" id="L224" title="All 2 branches covered.">        if(!dataProcess.get(user).containFile(filename)){</span>
+<span class="fc" id="L225">            throw new IllegalArgumentException(&quot;File not exist&quot;);</span>
+        }
+
+<span class="fc" id="L228">        dataProcess.get(user).saveFile(filename, save);</span>
+<span class="fc" id="L229">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

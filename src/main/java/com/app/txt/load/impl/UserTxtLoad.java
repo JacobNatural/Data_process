@@ -10,8 +10,8 @@ import com.app.user.User;
  * A concrete implementation of the Load interface for loading User data from a text file.
  * It extends the abstract LoadFromTxt class to provide specific functionality for User data.
  *
- * @param <T> the type of the keys in the data (Long in this case)
- * @param <U> the type of the values in the data (User in this case)
+ * The type of the keys in the data (Long in this case)
+ * The type of the values in the data (User in this case)
  */
 public class UserTxtLoad extends LoadFromTxt<Long, User> implements Load<Long, User> {
 

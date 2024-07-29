@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">DataProcess</a> &gt; <a href="index.source.html" class="el_package">com.app.repository.impl</a> &gt; <span class="el_source">DataRepository.java</span></div><h1>DataRepository.java</h1><pre class="source lang-java linenums">package com.app.repository.impl;
+
+import com.app.model.Filename;
+import com.app.repository.Repository;
+import com.app.txt.load.Load;
+import lombok.RequiredArgsConstructor;
+
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * The DataRepository class implements the Repository interface for managing file data.
+ * It maps filenames to their corresponding content based on data loaded from a file and another repository.
+ */
+@RequiredArgsConstructor
+public class DataRepository implements Repository&lt;Filename, String&gt; {
+
+    private final Map&lt;Filename, String&gt; dates;
+
+    /**
+     * Constructs a DataRepository with file data loaded from a file and a repository of filenames.
+     *
+     * @param load the Load strategy used to load file data
+     * @param repository the Repository that provides filenames
+     * @throws IllegalArgumentException if the load strategy or repository is null
+     */
+<span class="fc" id="L27">    public DataRepository(Load&lt;Long, String&gt; load, Repository&lt;Long, Filename&gt; repository) {</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (load == null) {</span>
+<span class="fc" id="L29">            throw new IllegalArgumentException(&quot;Load cannot be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (repository == null) {</span>
+<span class="fc" id="L33">            throw new IllegalArgumentException(&quot;Repository cannot be null&quot;);</span>
+        }
+<span class="fc" id="L35">        dates = repository</span>
+<span class="fc" id="L36">                .getAll()</span>
+<span class="fc" id="L37">                .values()</span>
+<span class="fc" id="L38">                .stream()</span>
+<span class="fc" id="L39">                .map(filename -&gt; getModel(load, filename))</span>
+<span class="fc" id="L40">                .flatMap(map -&gt; map.entrySet().stream())</span>
+<span class="fc" id="L41">                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));</span>
+<span class="fc" id="L42">    }</span>
+
+    /**
+     * Loads data associated with a given filename and creates a map entry.
+     *
+     * @param load the Load strategy used to load file data
+     * @param filename the filename for which data is to be loaded
+     * @return a map containing the filename and its corresponding content
+     */
+    private Map&lt;Filename, String&gt; getModel(Load&lt;Long, String&gt; load, Filename filename) {
+<span class="fc" id="L52">        return Map.of(</span>
+<span class="fc" id="L53">                filename, load.load(filename.filename()).get(1L));</span>
+    }
+
+    /**
+     * Retrieves all file data in the repository.
+     *
+     * @return a map containing all file data, where the key is the Filename object and the value is the file content (String)
+     */
+    @Override
+    public Map&lt;Filename, String&gt; getAll() {
+<span class="fc" id="L63">        return dates;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

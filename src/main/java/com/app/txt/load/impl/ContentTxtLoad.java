@@ -9,8 +9,8 @@ import com.app.txt.load.generic.LoadFromTxt;
  * A concrete implementation of the Load interface for loading content data from a text file.
  * It extends the abstract LoadFromTxt class to provide specific functionality for content data.
  *
- * @param <T> the type of the keys in the data (Long in this case)
- * @param <U> the type of the values in the data (String in this case)
+ * The type of the keys in the data (Long in this case)
+ * The type of the values in the data (String in this case)
  */
     public class ContentTxtLoad extends LoadFromTxt<Long, String> implements Load<Long, String> {
 
