@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.app</groupId>
-    <artifactId>DataProcess</artifactId>
+    <artifactId>data-process</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -55,7 +55,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
