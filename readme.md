@@ -1,7 +1,7 @@
 # Data Processing Application
 ![Static Badge](https://img.shields.io/badge/Build-passing-flat)
-[![Static Badge](https://img.shields.io/badge/Coverage-98%25-flat)](https://jacobnatural.github.io/data_process/jacoco/index.html)
-[![Static Badge](https://img.shields.io/badge/docs-blue)](https://jacobnatural.github.io/data_process/apidocs/index.html)
+[![Static Badge](https://img.shields.io/badge/Coverage-98%25-flat)](https://jacobnatural.github.io/data-process/jacoco/index.html)
+[![Static Badge](https://img.shields.io/badge/docs-blue)](https://jacobnatural.github.io/data-process/apidocs/index.html)
 
 ## Overview
 
@@ -21,8 +21,8 @@ modifying files, and overwriting files. All components of the application are th
 ### Cloning the repository:
 
 ```bash
-git clone https://github.com/JacobNatural/data_process.git
-cd data_process
+git clone https://github.com/JacobNatural/data-process.git
+cd data-process
 ```
 
 ### Running the application:
